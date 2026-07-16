@@ -1,0 +1,15 @@
+langchain
+langchain-community
+langchain-text-splitters
+
+chromadb
+
+sentence-transformers
+
+pypdf
+
+ollama
+
+tqdm
+
+python-dotenv
