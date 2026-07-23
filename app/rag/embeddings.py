@@ -1,9 +1,10 @@
-"""Embedding generation for the RAG pipeline."""
+"""Embedding model initialization for the RAG pipeline."""
+
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
 
-class EmbeddingGenerator:
-    """Generates vector embeddings for text chunks."""
-
-    def embed(self, texts: list[str]) -> list[list[float]]:
-        """Convert text chunks into vector embeddings."""
-        pass
+def create_embeddings() -> HuggingFaceEmbeddings:
+    """Return a configured HuggingFace embedding model instance."""
+    return HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )

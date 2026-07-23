@@ -19,10 +19,11 @@
 
 ## Phase 3 — RAG Pipeline
 
-- [ ] Load PDF
-- [ ] Split documents
-- [ ] Generate embeddings
-- [ ] Store vectors in ChromaDB
+- [x] Load Documents
+- [x] Split Documents
+- [ ] Initialize Embedding Model
+- [ ] Store Vectors in ChromaDB
+- [ ] Build Retriever
 
 ---
 
