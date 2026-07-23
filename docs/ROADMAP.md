@@ -21,8 +21,8 @@
 
 - [x] Load Documents
 - [x] Split Documents
-- [ ] Initialize Embedding Model
-- [ ] Store Vectors in ChromaDB
+- [x] Initialize Embedding Model
+- [x] Store Vectors in ChromaDB
 - [ ] Build Retriever
 
 ---
