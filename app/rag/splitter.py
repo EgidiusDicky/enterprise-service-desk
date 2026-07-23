@@ -1,9 +1,13 @@
-"""Text splitter for chunking documents in the RAG pipeline."""
+"""Text splitter for chunking documents for the RAG pipeline."""
+
+from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
-class TextSplitter:
-    """Splits document text into manageable chunks."""
-
-    def split(self, text: str) -> list[str]:
-        """Split text into chunks for embedding."""
-        pass
+def split_documents(documents: list[Document]) -> list[Document]:
+    """Split documents into chunks using RecursiveCharacterTextSplitter."""
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=500,
+        chunk_overlap=50,
+    )
+    return splitter.split_documents(documents)
