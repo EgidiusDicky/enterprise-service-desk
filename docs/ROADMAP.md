@@ -73,9 +73,9 @@ Each agent should:
 
 ## Phase 7 — Supervisor Agent
 
-- [ ] Detect user intent
-- [ ] Route request to department agent
-- [ ] Return department response
+- [x] Detect user intent
+- [x] Route request to department agent
+- [x] Return department response
 
 ---
 
