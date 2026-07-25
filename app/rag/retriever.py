@@ -1,9 +1,12 @@
-"""Retriever for fetching relevant context in the RAG pipeline."""
+"""Retriever creation for the RAG pipeline."""
+
+from langchain_chroma import Chroma
+from langchain_core.retrievers import BaseRetriever
 
 
-class Retriever:
-    """Retrieves relevant document chunks for a given query."""
-
-    def retrieve(self, query: str, top_k: int = 3) -> list[str]:
-        """Fetch the most relevant text chunks for the query."""
-        pass
+def create_retriever(vector_store: Chroma) -> BaseRetriever:
+    """Return a similarity retriever from a Chroma vector store."""
+    return vector_store.as_retriever(
+        search_type="similarity",
+        search_kwargs={"k": 3},
+    )
