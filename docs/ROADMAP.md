@@ -44,7 +44,7 @@ Deliverables:
 
 - [x] Retrieve Tool
 - [x] Context Validation Tool
-- [ ] Response Generation Tool
+- [x] Response Generation Tool
 - [ ] Workflow Action Tool
 
 Output:
@@ -57,7 +57,7 @@ Department agents use tools instead of directly accessing the RAG pipeline.
 
 Implement:
 
-- [ ] HR Agent
+- [x] HR Agent
 - [ ] IT Agent
 - [ ] Finance Agent
 
