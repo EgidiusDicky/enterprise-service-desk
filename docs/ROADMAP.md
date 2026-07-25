@@ -2,18 +2,18 @@
 
 ## Phase 1 — Project Setup
 
-- [ ] Create project structure
-- [ ] Create Conda environment
-- [ ] Install dependencies
-- [ ] Setup Git repository
+- [x] Create project structure
+- [x] Create Conda environment
+- [x] Install dependencies
+- [x] Setup Git repository
 
 ---
 
 ## Phase 2 — Knowledge Base
 
-- [ ] Prepare HR SOP
-- [ ] Prepare IT SOP
-- [ ] Prepare Finance SOP
+- [x] Prepare HR SOP
+- [x] Prepare IT SOP
+- [x] Prepare Finance SOP
 
 ---
 
@@ -28,9 +28,9 @@
 
 ## Phase 4 — Retriever
 
-- [ ] Build Retriever from ChromaDB
-- [ ] Retrieve relevant documents
-- [ ] Return context
+- [x] Build Retriever from ChromaDB
+- [x] Retrieve relevant documents
+- [x] Return context
 
 ---
 
@@ -45,7 +45,7 @@ Deliverables:
 - [x] Retrieve Tool
 - [x] Context Validation Tool
 - [x] Response Generation Tool
-- [ ] Workflow Action Tool
+- [x] Workflow Action Tool
 
 Output:
 
