@@ -1,0 +1,26 @@
+[
+    {
+        "employee": "Dicky",
+        "task": "Implement Login API",
+        "deadline": "2026-07-30",
+        "status": "In Progress"
+    },
+    {
+        "employee": "Dicky",
+        "task": "Fix VPN Issue",
+        "deadline": "2026-08-01",
+        "status": "Pending"
+    },
+    {
+        "employee": "Andi",
+        "task": "Review Leave Request",
+        "deadline": "2026-07-29",
+        "status": "Pending"
+    },
+    {
+        "employee": "Budi",
+        "task": "Review Reimbursement",
+        "deadline": "2026-07-31",
+        "status": "Pending"
+    }
+]
