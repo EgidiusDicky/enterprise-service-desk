@@ -59,7 +59,7 @@ Implement:
 
 - [x] HR Agent
 - [x] IT Agent
-- [ ] Finance Agent
+- [x] Finance Agent
 
 Each agent should:
 
