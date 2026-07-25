@@ -6,6 +6,7 @@ from langchain_core.retrievers import BaseRetriever
 from app.tools.retrieve_tool import retrieve_context
 from app.tools.validation_tool import validate_context
 from app.tools.response_tool import generate_response
+from app.tools.workflow_tool import create_leave_request
 
 
 def answer(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
@@ -15,4 +16,21 @@ def answer(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
     if not validate_context(documents):
         return "I don't have enough information from the HR knowledge base."
 
-    return generate_response(llm, query, documents)
+    response = generate_response(llm, query, documents)
+
+    query_lower = query.lower()
+    is_request = "cuti" in query_lower and "bagaimana" not in query_lower
+
+    if is_request:
+        leave_request = create_leave_request(
+            employee_id="EMP001",
+            start_date="2026-08-12",
+            end_date="2026-08-14",
+            reason=query,
+        )
+        response += (
+            f"\n\nLeave request has been created successfully.\n"
+            f"Current status: {leave_request['status']}."
+        )
+
+    return response

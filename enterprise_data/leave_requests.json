@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "request_id": "f67886eb-5c05-49f0-9550-3cdc16eed77a",
+    "employee_id": "EMP001",
+    "start_date": "2026-08-12",
+    "end_date": "2026-08-14",
+    "reason": "Saya ingin cuti tanggal 12 Agustus karena acara keluarga.",
+    "status": "Pending"
+  }
+]
