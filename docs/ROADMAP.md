@@ -58,7 +58,7 @@ Department agents use tools instead of directly accessing the RAG pipeline.
 Implement:
 
 - [x] HR Agent
-- [ ] IT Agent
+- [x] IT Agent
 - [ ] Finance Agent
 
 Each agent should:
