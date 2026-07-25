@@ -42,7 +42,7 @@ Implement reusable tools that can be executed by each department agent.
 
 Deliverables:
 
-- [ ] Retrieve Tool
+- [x] Retrieve Tool
 - [ ] Context Validation Tool
 - [ ] Response Generation Tool
 - [ ] Workflow Action Tool
