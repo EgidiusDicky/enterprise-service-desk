@@ -23,71 +23,79 @@
 - [x] Split Documents
 - [x] Initialize Embedding Model
 - [x] Store Vectors in ChromaDB
-- [ ] Build Retriever
 
 ---
 
-## Phase 4 — Agents
+## Phase 4 — Retriever
+
+- [ ] Build Retriever from ChromaDB
+- [ ] Retrieve relevant documents
+- [ ] Return context
+
+---
+
+## Phase 5 — Tool Layer
+
+Objective:
+
+Implement reusable tools that can be executed by each department agent.
+
+Deliverables:
+
+- [ ] Retrieve Tool
+- [ ] Context Validation Tool
+- [ ] Response Generation Tool
+- [ ] Workflow Action Tool
+
+Output:
+
+Department agents use tools instead of directly accessing the RAG pipeline.
+
+---
+
+## Phase 6 — Department Agents
+
+Implement:
 
 - [ ] HR Agent
 - [ ] IT Agent
 - [ ] Finance Agent
 
----
-
-## Phase 5 - Agent Tool Design
-
-Objective:
-
-Design reusable tools that can be executed by each department agent.
-
-Deliverables:
-
-- Retrieve Tool
-- Context Validation Tool
-- Response Generation Tool
-
-Output:
-
-Each department agent owns a set of tools that can be executed as part of its workflow.
-
----
-
-## Phase 6 - Department Agent
-
-Implement:
-
-- HR Agent
-- IT Agent
-- Finance Agent
-
 Each agent should:
 
 - Receive user query
-- Execute retrieval tool
-- Execute validation tool
-- Generate answer
-
-Each agent acts independently.
+- Execute Retrieve Tool
+- Execute Context Validation Tool
+- Execute Response Generation Tool
+- Execute Workflow Action Tool (if required)
 
 ---
 
 ## Phase 7 — Supervisor Agent
 
-- [ ] Simple keyword routing
-- [ ] Route user request
-- [ ] Call specialist agent
+- [ ] Detect user intent
+- [ ] Route request to department agent
+- [ ] Return department response
 
 ---
 
-## Phase 8 — LLM Response
+Phase 8 — Enterprise Automation
 
-- [ ] Retrieve context
-- [ ] Generate final answer
+Simulation only.
+
+Implement:
+
+- [ ] Leave Request Workflow
+- [ ] IT Ticket Workflow
+- [ ] Reimbursement Workflow
+
+Store workflow state using JSON files.
 
 ---
 
 ## Phase 9 — Evaluation
+
+Evaluate:
 
 - [ ] Accuracy
 - [ ] Hallucination
@@ -102,5 +110,8 @@ Each agent acts independently.
 - Agent Memory
 - Reflection Agent
 - Web UI
-- API
+- Authentication
+- SQL Database
+- REST API
 - Graph RAG
+- MCP Tool Server
