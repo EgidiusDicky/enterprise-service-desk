@@ -1,26 +1,23 @@
 [
     {
-        "employee": "Dicky",
-        "task": "Implement Login API",
-        "deadline": "2026-07-30",
-        "status": "In Progress"
+    "task_id": "TASK001",
+    "employee_id": "EMP001",
+    "title": "Frontend Dashboard",
+    "deadline": "2026-08-15",
+    "status": "In Progress"
     },
     {
-        "employee": "Dicky",
-        "task": "Fix VPN Issue",
-        "deadline": "2026-08-01",
-        "status": "Pending"
+    "task_id": "TASK002",
+    "employee_id": "EMP001",
+    "title": "API Authentication",
+    "deadline": "2026-08-20",
+    "status": "In Progress"
     },
     {
-        "employee": "Andi",
-        "task": "Review Leave Request",
-        "deadline": "2026-07-29",
-        "status": "Pending"
-    },
-    {
-        "employee": "Budi",
-        "task": "Review Reimbursement",
-        "deadline": "2026-07-31",
-        "status": "Pending"
+    "task_id": "TASK003",
+    "employee_id": "EMP002",
+    "title": "Payroll Report",
+    "deadline": "2026-08-18",
+    "status": "Completed"
     }
 ]
