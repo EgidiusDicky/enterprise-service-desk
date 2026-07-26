@@ -26,11 +26,20 @@ def answer(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
         tasks = get_employee_tasks("EMP001")
 
         if tasks:
+            response += (
+                f"\n\nRecommendation:\n"
+                f"You currently have {len(tasks)} active task(s).\n"
+                f"Please coordinate task handover with your supervisor before your leave begins."
+            )
             response += "\n\nCurrent Active Tasks:"
             for task in tasks:
                 response += f"\n- {task['title']} (Deadline: {task['deadline']})"
         else:
-            response += "\n\nNo active tasks found."
+            response += (
+                "\n\nRecommendation:\n"
+                "No active tasks were found.\n"
+                "Your leave request can proceed normally."
+            )
 
         leave_request = create_leave_request(
             employee_id="EMP001",
