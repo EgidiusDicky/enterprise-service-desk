@@ -6,5 +6,13 @@
     "end_date": "2026-08-14",
     "reason": "Saya ingin cuti tanggal 12 Agustus karena acara keluarga.",
     "status": "Pending"
+  },
+  {
+    "request_id": "585b8f25-8ca7-4c78-8c48-6faa96fd5b86",
+    "employee_id": "EMP001",
+    "start_date": "2026-08-12",
+    "end_date": "2026-08-14",
+    "reason": "Saya ingin cuti tanggal 12 Agustus karena acara keluarga.",
+    "status": "Pending"
   }
 ]

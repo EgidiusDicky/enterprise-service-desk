@@ -7,6 +7,7 @@ from app.tools.retrieve_tool import retrieve_context
 from app.tools.validation_tool import validate_context
 from app.tools.response_tool import generate_response
 from app.tools.workflow_tool import create_leave_request
+from app.tools.task_lookup_tool import get_employee_tasks
 
 
 def answer(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
@@ -22,6 +23,15 @@ def answer(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
     is_request = "cuti" in query_lower and "bagaimana" not in query_lower
 
     if is_request:
+        tasks = get_employee_tasks("EMP001")
+
+        if tasks:
+            response += "\n\nCurrent Active Tasks:"
+            for task in tasks:
+                response += f"\n- {task['title']} (Deadline: {task['deadline']})"
+        else:
+            response += "\n\nNo active tasks found."
+
         leave_request = create_leave_request(
             employee_id="EMP001",
             start_date="2026-08-12",
