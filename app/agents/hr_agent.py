@@ -41,6 +41,8 @@ def answer(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
                 "Your leave request can proceed normally."
             )
 
+        response += "\n\nConfirmation:\nUser confirmed the leave request."
+
         leave_request = create_leave_request(
             employee_id="EMP001",
             start_date="2026-08-12",
