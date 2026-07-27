@@ -86,7 +86,7 @@ Simulation only.
 Implement:
 
 - [x] Leave Request Workflow
-- [ ] IT Ticket Workflow
+- [x] IT Ticket Workflow
 - [ ] Reimbursement Workflow
 
 Store workflow state using JSON files.

@@ -1,8 +1,34 @@
-"""Tool for creating leave requests."""
+"""Tools for creating leave requests and IT tickets."""
 
 import json
 import uuid
 from pathlib import Path
+
+
+def create_it_ticket(employee_id: str, issue: str) -> dict:
+    """Create a new IT ticket and persist it to the JSON file."""
+    file_path = (
+        Path(__file__).resolve().parent.parent.parent
+        / "enterprise_data"
+        / "it_tickets.json"
+    )
+
+    with open(file_path, "r") as f:
+        tickets = json.load(f)
+
+    new_ticket = {
+        "ticket_id": str(uuid.uuid4()),
+        "employee_id": employee_id,
+        "issue": issue,
+        "status": "Open",
+    }
+
+    tickets.append(new_ticket)
+
+    with open(file_path, "w") as f:
+        json.dump(tickets, f, indent=2)
+
+    return new_ticket
 
 
 def create_leave_request(
