@@ -1,8 +1,35 @@
-"""Tools for creating leave requests and IT tickets."""
+"""Tools for creating leave requests, IT tickets, and reimbursements."""
 
 import json
 import uuid
 from pathlib import Path
+
+
+def create_reimbursement(employee_id: str, amount: float, description: str) -> dict:
+    """Create a new reimbursement request and persist it to the JSON file."""
+    file_path = (
+        Path(__file__).resolve().parent.parent.parent
+        / "enterprise_data"
+        / "reimbursements.json"
+    )
+
+    with open(file_path, "r") as f:
+        reimbursements = json.load(f)
+
+    new_reimbursement = {
+        "reimbursement_id": str(uuid.uuid4()),
+        "employee_id": employee_id,
+        "amount": amount,
+        "description": description,
+        "status": "Pending",
+    }
+
+    reimbursements.append(new_reimbursement)
+
+    with open(file_path, "w") as f:
+        json.dump(reimbursements, f, indent=2)
+
+    return new_reimbursement
 
 
 def create_it_ticket(employee_id: str, issue: str) -> dict:

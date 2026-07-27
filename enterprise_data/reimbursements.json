@@ -1,0 +1,9 @@
+[
+  {
+    "reimbursement_id": "c8dbdb57-db3a-44c9-bd11-72d693ec93e1",
+    "employee_id": "EMP001",
+    "amount": 250000,
+    "description": "Taxi from airport",
+    "status": "Pending"
+  }
+]
