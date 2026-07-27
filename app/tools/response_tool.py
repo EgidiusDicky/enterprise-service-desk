@@ -16,6 +16,12 @@ def generate_response(
         "Do not invent procedures.\n"
         "If the answer is not found in the context, reply:\n"
         "'I don't have enough information from the knowledge base.'\n"
+        "Answer in at most 3 bullet points.\n"
+        "Maximum 80 words.\n"
+        "Do not repeat the user's question.\n"
+        "Be concise.\n"
+        "Answer only what was asked.\n"
+        "Use Indonesian.\n"
         f"\nContext:\n{context}"
         f"\n\nQuestion: {query}\n\nAnswer:"
     )
