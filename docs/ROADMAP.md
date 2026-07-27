@@ -97,10 +97,10 @@ Store workflow state using JSON files.
 
 Evaluate:
 
-- [ ] Accuracy
-- [ ] Hallucination
-- [ ] Efficiency
-- [ ] Explainability
+- [x] Accuracy
+- [x] Hallucination
+- [x] Efficiency
+- [x] Explainability
 
 ---
 

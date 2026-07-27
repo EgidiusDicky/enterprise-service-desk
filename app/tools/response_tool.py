@@ -25,4 +25,5 @@ def generate_response(
         f"\nContext:\n{context}"
         f"\n\nQuestion: {query}\n\nAnswer:"
     )
-    return llm.invoke(prompt)
+    result = llm.invoke(prompt)
+    return result if isinstance(result, str) else result.content
