@@ -20,8 +20,13 @@ def main() -> None:
 
     print("========================================")
     print("Enterprise Service Desk")
-    print("Type 'exit' to quit.")
     print("========================================")
+    print()
+    print("Commands:")
+    print()
+    print("exit")
+    print()
+    print("----------------------------------------")
 
     while True:
         user_input = input("You > ")
