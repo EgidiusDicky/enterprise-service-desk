@@ -6,6 +6,12 @@ Enterprise Internal Service Desk is a Multi-Agent LLM system that demonstrates R
 
 This project was developed as the Final Project for the Enterprise AI course.
 
+## System Architecture
+
+The following diagram illustrates the overall architecture of the Enterprise Service Desk system.
+
+![System Architecture](assets/images/architecture.svg)
+
 ## Enterprise Case Study
 
 Employees often struggle to find internal SOP information because documents are scattered across different departments. This system demonstrates how a Multi-Agent architecture can automatically route requests to the appropriate department and answer using department-specific knowledge.
@@ -209,23 +215,41 @@ pip install -r requirements.txt
 
 ## How to Run
 
-Run the end-to-end demo:
+### 1. Run Interactive CLI
 
-```
-python tests/demo_system.py
+```bash
+python -m app.main
 ```
 
-Run individual smoke tests:
+This starts the Enterprise Service Desk terminal chat. Type questions directly and receive answers from the appropriate department agent. Type `exit` to quit.
 
+### 2. Run Demo
+
+```bash
+python -m tests.demo_system
 ```
-python tests/test_loader.py
-python tests/test_splitter.py
-python tests/test_vectordb.py
-python tests/test_hr_agent.py
-python tests/test_it_agent.py
-python tests/test_finance_agent.py
-python tests/test_supervisor.py
+
+This runs predefined HR, IT and Finance queries through the Supervisor Agent and prints the responses.
+
+### 3. Run Evaluation
+
+```bash
+python evaluation/evaluate_accuracy.py
+python evaluation/evaluate_efficiency.py
+python evaluation/evaluate_hallucination.py
 ```
+
+These scripts evaluate the implemented RAG system for accuracy, efficiency, and hallucination metrics.
+
+### 4. Run Workflow Tests
+
+```bash
+python -m tests.test_leave_confirmation_flow
+python -m tests.test_bilingual_routing
+python -m tests.test_clean_output
+```
+
+These are manual smoke tests that verify specific workflows and output formatting.
 
 ## Demo
 
@@ -237,6 +261,15 @@ The demo script (`tests/demo_system.py`) runs three queries:
 
 Each query is routed by the Supervisor Agent, processed by the appropriate department agent, and answered using the RAG pipeline.
 
+## Repository Structure
+
+- `app/` -- Core application code including agents, RAG pipeline, and tools.
+- `enterprise_data/` -- JSON data files for employee records, tasks, leave requests, IT tickets, and reimbursements.
+- `knowledge_base/` -- Department-specific SOP documents organized by folder (hr, it, finance).
+- `evaluation/` -- Evaluation scripts and report for measuring system performance.
+- `tests/` -- Manual smoke tests and the end-to-end demo script.
+- `assets/images/` -- Architecture diagram and other image assets for documentation.
+
 ## Future Improvements
 
 - Semantic routing for better query classification.
@@ -245,3 +278,16 @@ Each query is routed by the Supervisor Agent, processed by the appropriate depar
 - REST API.
 - Graph RAG for cross-department knowledge.
 - Additional department support.
+
+## Project Status
+
+- ✅ Multi-Agent Routing
+- ✅ Retrieval-Augmented Generation (RAG)
+- ✅ Chroma Vector Database
+- ✅ Embedding Pipeline
+- ✅ Department Agents
+- ✅ Enterprise Workflows
+- ✅ Evaluation Scripts
+- ✅ Interactive CLI
+- ✅ Bilingual Support
+- ✅ Documentation
