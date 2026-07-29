@@ -29,3 +29,6 @@ vector_store/
 # OS
 .DS_Store
 Thumbs.db
+
+# Document
+docs/

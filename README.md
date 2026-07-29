@@ -23,30 +23,6 @@ The system supports three departments:
 
 Each department has its own knowledge base, vector store, and agent.
 
-## Architecture
-
-```
-User Query
-    |
-    v
-Supervisor Agent (keyword routing)
-    |
-    v
-Department Agent (HR / IT / Finance)
-    |
-    v
-RAG Pipeline
-    |
-    v
-Chroma Vector Store
-    |
-    v
-LLM (LM Studio)
-    |
-    v
-Final Response
-```
-
 ## Project Structure
 
 ```
