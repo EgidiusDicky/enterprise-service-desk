@@ -2,12 +2,6 @@
 
 import gradio as gr
 
-from app.rag.loader import load_documents
-from app.rag.splitter import split_documents
-from app.rag.embeddings import create_embeddings
-from app.rag.vectordb import create_vector_store
-from app.rag.retriever import create_retriever
-from app.llm import create_llm
 from app.agents.supervisor import route
 from app.agents.hr_agent import confirm_leave
 
@@ -19,6 +13,12 @@ def _get_retriever():
     """Lazily initialize and return the retriever."""
     global _retriever
     if _retriever is None:
+        from app.rag.loader import load_documents
+        from app.rag.splitter import split_documents
+        from app.rag.embeddings import create_embeddings
+        from app.rag.vectordb import create_vector_store
+        from app.rag.retriever import create_retriever
+
         documents = load_documents()
         chunks = split_documents(documents)
         embeddings = create_embeddings()
@@ -31,6 +31,8 @@ def _get_llm():
     """Lazily initialize and return the LLM."""
     global _llm
     if _llm is None:
+        from app.llm import create_llm
+
         _llm = create_llm()
     return _llm
 
