@@ -11,13 +11,29 @@ from app.llm import create_llm
 from app.agents.supervisor import route
 from app.agents.hr_agent import confirm_leave
 
-# Build the RAG pipeline once at startup.
-documents = load_documents()
-chunks = split_documents(documents)
-embeddings = create_embeddings()
-vector_store = create_vector_store(chunks, embeddings)
-retriever = create_retriever(vector_store)
-llm = create_llm()
+_retriever = None
+_llm = None
+
+
+def _get_retriever():
+    """Lazily initialize and return the retriever."""
+    global _retriever
+    if _retriever is None:
+        documents = load_documents()
+        chunks = split_documents(documents)
+        embeddings = create_embeddings()
+        vector_store = create_vector_store(chunks, embeddings)
+        _retriever = create_retriever(vector_store)
+    return _retriever
+
+
+def _get_llm():
+    """Lazily initialize and return the LLM."""
+    global _llm
+    if _llm is None:
+        _llm = create_llm()
+    return _llm
+
 
 # Conversation state
 _pending_leave_query = None
@@ -27,16 +43,15 @@ def chatbot(message: str, history: list) -> str:
     """Handle a single user message and return the assistant response."""
     global _pending_leave_query
 
-    # Check if we're waiting for leave confirmation
     if _pending_leave_query is not None:
         result = confirm_leave(_pending_leave_query, message)
         _pending_leave_query = None
         return result
 
-    # Normal routing
+    retriever = _get_retriever()
+    llm = _get_llm()
     response = route(message, retriever, llm)
 
-    # Check if HR returned a confirmation prompt
     if "Confirmation:" in response or "Konfirmasi:" in response:
         _pending_leave_query = message
 

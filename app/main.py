@@ -10,15 +10,32 @@ from app.agents.supervisor import route
 from app.agents.hr_agent import confirm_leave
 
 
+_retriever = None
+_llm = None
+
+
+def _get_retriever():
+    """Lazily initialize and return the retriever."""
+    global _retriever
+    if _retriever is None:
+        documents = load_documents()
+        chunks = split_documents(documents)
+        embeddings = create_embeddings()
+        vector_store = create_vector_store(chunks, embeddings)
+        _retriever = create_retriever(vector_store)
+    return _retriever
+
+
+def _get_llm():
+    """Lazily initialize and return the LLM."""
+    global _llm
+    if _llm is None:
+        _llm = create_llm()
+    return _llm
+
+
 def main() -> None:
     """Run the interactive terminal chat loop."""
-    documents = load_documents()
-    chunks = split_documents(documents)
-    embeddings = create_embeddings()
-    vector_store = create_vector_store(chunks, embeddings)
-    retriever = create_retriever(vector_store)
-    llm = create_llm()
-
     print("========================================")
     print("Enterprise Service Desk")
     print("========================================")
@@ -43,6 +60,8 @@ def main() -> None:
             print("----------------------------------------")
             pending_query = None
         else:
+            retriever = _get_retriever()
+            llm = _get_llm()
             response = route(user_input, retriever, llm)
             print("Assistant >", response)
             print("----------------------------------------")
