@@ -70,6 +70,8 @@ examples = [
     "I want to apply for leave on August 25.",
 ]
 
+print("Starting Enterprise Service Desk...")
+
 demo = gr.ChatInterface(
     chatbot,
     title="Enterprise Service Desk",
@@ -78,7 +80,10 @@ demo = gr.ChatInterface(
 )
 
 if __name__ == "__main__":
+    port = int(__import__("os").getenv("PORT", 7860))
+    print(f"PORT={port}")
     demo.launch(
         server_name="0.0.0.0",
-        server_port=int(__import__("os").getenv("PORT", 7860)),
+        server_port=port,
     )
+    print("Gradio server has stopped.")
