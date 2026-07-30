@@ -13,17 +13,33 @@ def _get_retriever():
     """Lazily initialize and return the retriever."""
     global _retriever
     if _retriever is None:
-        from app.rag.loader import load_documents
-        from app.rag.splitter import split_documents
+        from pathlib import Path
+
         from app.rag.embeddings import create_embeddings
-        from app.rag.vectordb import create_vector_store
+        from app.rag.vectordb import Chroma, _get_vector_store_path
         from app.rag.retriever import create_retriever
 
-        documents = load_documents()
-        chunks = split_documents(documents)
-        embeddings = create_embeddings()
-        vector_store = create_vector_store(chunks, embeddings)
-        _retriever = create_retriever(vector_store)
+        db_path = Path(_get_vector_store_path())
+        if db_path.exists() and (db_path / "chroma.sqlite3").exists():
+            embeddings = create_embeddings()
+            _retriever = Chroma(
+                embedding_function=embeddings,
+                persist_directory=str(db_path),
+            )
+            _retriever = _retriever.as_retriever(
+                search_type="similarity",
+                search_kwargs={"k": 3},
+            )
+        else:
+            from app.rag.loader import load_documents
+            from app.rag.splitter import split_documents
+            from app.rag.vectordb import create_vector_store
+
+            documents = load_documents()
+            chunks = split_documents(documents)
+            embeddings = create_embeddings()
+            vector_store = create_vector_store(chunks, embeddings)
+            _retriever = create_retriever(vector_store)
     return _retriever
 
 
