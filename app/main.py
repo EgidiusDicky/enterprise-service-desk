@@ -7,6 +7,7 @@ from app.rag.vectordb import create_vector_store
 from app.rag.retriever import create_retriever
 from app.llm import create_llm
 from app.agents.supervisor import route
+from app.agents.hr_agent import confirm_leave
 
 
 def main() -> None:
@@ -28,14 +29,23 @@ def main() -> None:
     print()
     print("----------------------------------------")
 
+    pending_query = None
+
     while True:
         user_input = input("You > ")
         if user_input == "exit":
             print("Goodbye.")
             break
-        response = route(user_input, retriever, llm)
-        print("Assistant >", response)
-        print("----------------------------------------")
+
+        if pending_query is not None:
+            result = confirm_leave(pending_query, user_input)
+            print("Assistant >", result)
+            print("----------------------------------------")
+            pending_query = None
+        else:
+            response = route(user_input, retriever, llm)
+            print("Assistant >", response)
+            print("----------------------------------------")
 
 
 if __name__ == "__main__":

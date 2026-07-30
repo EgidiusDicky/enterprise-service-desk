@@ -13,8 +13,21 @@ from app.tools.task_lookup_tool import get_employee_tasks
 _LEAVE_KEYWORDS = ["cuti", "izin", "leave", "vacation", "holiday", "day off"]
 
 
-def answer(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
-    """Answer an HR query using retrieval and LLM generation."""
+def answer(
+    query: str,
+    retriever: BaseRetriever,
+    llm: BaseLanguageModel,
+    confirm: str | None = None,
+) -> str:
+    """Answer an HR query.
+
+    Args:
+        query: The user's query.
+        retriever: The document retriever.
+        llm: The language model.
+        confirm: Optional confirmation response. If provided and the query
+                 is a leave request, the confirmation is processed immediately.
+    """
     documents = retrieve_context(retriever, query)
 
     if not validate_context(documents):
@@ -27,33 +40,52 @@ def answer(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
     has_leave_kw = any(kw in query_lower for kw in _LEAVE_KEYWORDS)
     is_request = has_leave_kw and not is_leave_knowledge
 
-    if is_request:
-        tasks = get_employee_tasks("EMP001")
-        is_id = any(kw in query_lower for kw in ["cuti", "izin"])
+    if not is_request:
+        return response
 
+    tasks = get_employee_tasks("EMP001")
+    is_id = any(kw in query_lower for kw in ["cuti", "izin"])
+
+    if is_id:
+        if tasks:
+            response += (
+                f"\n\nRekomendasi:\n"
+                f"Anda memiliki {len(tasks)} tugas aktif.\n"
+                f"Silakan koordinasikan penyerahan tugas dengan atasan sebelum cuti."
+            )
+            response += "\n\nTugas Aktif Saat Ini:"
+            for task in tasks:
+                response += f"\n- {task['title']} (Tenggat: {task['deadline']})"
+        else:
+            response += (
+                "\n\nRekomendasi:\n"
+                "Tidak ada tugas aktif yang ditemukan.\n"
+                "Pengajuan cuti Anda dapat diproses."
+            )
+        response += "\n\nKonfirmasi:\nApakah Anda ingin mengajukan cuti ini?\nBalas dengan:\n- Ya\n- Tidak"
+    else:
+        if tasks:
+            response += (
+                f"\n\nRecommendation:\n"
+                f"You currently have {len(tasks)} active task(s).\n"
+                f"Please coordinate task handover with your supervisor before your leave begins."
+            )
+            response += "\n\nCurrent Active Tasks:"
+            for task in tasks:
+                response += f"\n- {task['title']} (Deadline: {task['deadline']})"
+        else:
+            response += (
+                "\n\nRecommendation:\n"
+                "No active tasks were found.\n"
+                "Your leave request can proceed normally."
+            )
+        response += "\n\nConfirmation:\nDo you want to submit this leave request?\nReply with:\n- Yes\n- No"
+
+    if confirm is not None:
+        # Confirmation already provided
+        confirm_answer = confirm.strip().lower()
         if is_id:
-            if tasks:
-                response += (
-                    f"\n\nRekomendasi:\n"
-                    f"Anda memiliki {len(tasks)} tugas aktif.\n"
-                    f"Silakan koordinasikan penyerahan tugas dengan atasan sebelum cuti."
-                )
-                response += "\n\nTugas Aktif Saat Ini:"
-                for task in tasks:
-                    response += f"\n- {task['title']} (Tenggat: {task['deadline']})"
-            else:
-                response += (
-                    "\n\nRekomendasi:\n"
-                    "Tidak ada tugas aktif yang ditemukan.\n"
-                    "Pengajuan cuti Anda dapat diproses."
-                )
-            response += "\n\nKonfirmasi:\nApakah Anda ingin mengajukan cuti ini?\nBalas dengan:\n- Ya\n- Tidak"
-
-            print(response)
-            print()
-
-            confirm = input("You > ").strip().lower()
-            if confirm in ("ya", "iya", "y", "yes"):
+            if confirm_answer in ("ya", "iya", "y", "yes"):
                 leave_request = create_leave_request(
                     employee_id="EMP001",
                     start_date="2026-08-12",
@@ -61,34 +93,14 @@ def answer(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
                     reason=query,
                 )
                 return (
-                    f"Pengajuan cuti berhasil dibuat.\n"
+                    response
+                    + f"\n\nPengajuan cuti berhasil dibuat.\n"
                     f"Status saat ini: {leave_request['status']}."
                 )
             else:
-                return "Pengajuan cuti dibatalkan."
+                return response + "\n\nPengajuan cuti dibatalkan."
         else:
-            if tasks:
-                response += (
-                    f"\n\nRecommendation:\n"
-                    f"You currently have {len(tasks)} active task(s).\n"
-                    f"Please coordinate task handover with your supervisor before your leave begins."
-                )
-                response += "\n\nCurrent Active Tasks:"
-                for task in tasks:
-                    response += f"\n- {task['title']} (Deadline: {task['deadline']})"
-            else:
-                response += (
-                    "\n\nRecommendation:\n"
-                    "No active tasks were found.\n"
-                    "Your leave request can proceed normally."
-                )
-            response += "\n\nConfirmation:\nDo you want to submit this leave request?\nReply with:\n- Yes\n- No"
-
-            print(response)
-            print()
-
-            confirm = input("You > ").strip().lower()
-            if confirm in ("yes", "y", "ya", "iya"):
+            if confirm_answer in ("yes", "y", "ya", "iya"):
                 leave_request = create_leave_request(
                     employee_id="EMP001",
                     start_date="2026-08-12",
@@ -96,10 +108,54 @@ def answer(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
                     reason=query,
                 )
                 return (
-                    f"Leave request has been created successfully.\n"
+                    response
+                    + f"\n\nLeave request has been created successfully.\n"
                     f"Current status: {leave_request['status']}."
                 )
             else:
-                return "Leave request cancelled."
+                return response + "\n\nLeave request cancelled."
 
     return response
+
+
+def confirm_leave(query: str, confirm_answer: str) -> str:
+    """Process a leave request confirmation.
+
+    Args:
+        query: The original leave request query.
+        confirm_answer: The user's confirmation response.
+
+    Returns:
+        Final success or cancellation message.
+    """
+    confirm_answer = confirm_answer.strip().lower()
+    is_id = any(kw in query.lower() for kw in ["cuti", "izin"])
+
+    if is_id:
+        if confirm_answer in ("ya", "iya", "y", "yes"):
+            leave_request = create_leave_request(
+                employee_id="EMP001",
+                start_date="2026-08-12",
+                end_date="2026-08-14",
+                reason=query,
+            )
+            return (
+                f"Pengajuan cuti berhasil dibuat.\n"
+                f"Status saat ini: {leave_request['status']}."
+            )
+        else:
+            return "Pengajuan cuti dibatalkan."
+    else:
+        if confirm_answer in ("yes", "y", "ya", "iya"):
+            leave_request = create_leave_request(
+                employee_id="EMP001",
+                start_date="2026-08-12",
+                end_date="2026-08-14",
+                reason=query,
+            )
+            return (
+                f"Leave request has been created successfully.\n"
+                f"Current status: {leave_request['status']}."
+            )
+        else:
+            return "Leave request cancelled."

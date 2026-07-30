@@ -52,8 +52,14 @@ _CAP_QUERIES_ID = [
     "apa yang dapat kamu lakukan",
 ]
 
-_GREETINGS_EN = {"hello", "hi", "hey"}
-_GREETINGS_ID = {"halo", "selamat pagi", "selamat siang", "selamat sore", "selamat malam"}
+_GREETINGS_EN = {
+    "hello", "helo", "helloo", "hi", "hii", "hey", "yo",
+    "good morning", "good afternoon", "good evening",
+}
+_GREETINGS_ID = {
+    "halo", "haloo", "hallo", "hai", "hy", "oi",
+    "selamat pagi", "selamat siang", "selamat sore", "selamat malam",
+}
 
 HR_KEYWORDS = ["cuti", "izin", "lembur", "bpjs", "leave", "vacation", "holiday"]
 IT_KEYWORDS = ["password", "vpn", "wifi", "email", "login", "account", "laptop"]
@@ -61,8 +67,22 @@ FINANCE_KEYWORDS = ["reimbursement", "invoice", "pembayaran", "pembelian", "expe
 
 
 
-def route(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
-    """Route a query to the appropriate department agent based on keywords."""
+def route(
+    query: str,
+    retriever: BaseRetriever,
+    llm: BaseLanguageModel,
+    confirm: str | None = None,
+) -> str:
+    """Route a query to the appropriate department agent based on keywords.
+
+    Args:
+        query: The user's query.
+        retriever: The document retriever.
+        llm: The language model.
+        confirm: Confirmation response for leave requests.
+                 When None (CLI mode), the agent uses input().
+                 When a string (Gradio mode), it uses that value.
+    """
     query_lower = query.lower().strip()
 
     if query_lower.rstrip("?.") in _GREETINGS_EN:
@@ -78,7 +98,7 @@ def route(query: str, retriever: BaseRetriever, llm: BaseLanguageModel) -> str:
         return _CAPABILITIES_ID
 
     if any(kw in query_lower for kw in HR_KEYWORDS):
-        return hr_answer(query, retriever, llm)
+        return hr_answer(query, retriever, llm, confirm=confirm)
 
     if any(kw in query_lower for kw in IT_KEYWORDS):
         return it_answer(query, retriever, llm)
