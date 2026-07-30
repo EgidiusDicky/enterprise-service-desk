@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "request_id": "c71de242-5c42-46d9-822a-75593135832b",
+    "employee_id": "EMP001",
+    "start_date": "2026-08-12",
+    "end_date": "2026-08-14",
+    "reason": "I want to apply for leave on August 25.",
+    "status": "Pending"
+  }
+]
