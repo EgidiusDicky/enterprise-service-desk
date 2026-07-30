@@ -32,3 +32,6 @@ Thumbs.db
 
 # Document
 docs/
+
+# Runtime data
+data/chroma/

@@ -267,3 +267,16 @@ Each query is routed by the Supervisor Agent, processed by the appropriate depar
 - ✅ Interactive CLI
 - ✅ Bilingual Support
 - ✅ Documentation
+
+## Runtime Optimization
+
+To reduce startup time and memory usage, the application includes:
+
+- Lazy loading for the RAG pipeline
+- Lazy loading for the LLM provider
+- Singleton embedding model
+- Singleton retriever
+- Persistent Chroma database
+- Render-compatible PORT configuration
+
+These optimizations reduce repeated initialization while keeping application behavior unchanged.
